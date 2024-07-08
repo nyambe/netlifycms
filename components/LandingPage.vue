@@ -45,7 +45,7 @@ const socialLinks = [
               <p class="text-2xl font-bold mb-6">{{ releaseDate }}</p>
               <p class="mb-6 font-thin text-xl">{{ description }}</p>
               
-              <form @submit.prevent="submitForm" class="mb-8">
+              <form @submit.prevent="submitForm" class="mb-8 pr-5">
                 <UInput v-model="email" placeholder="Enter your email" type="email" class="mb-2" />
                 <UButton type="submit" color="primary" class="w-full">Subscribe for Updates</UButton>
               </form>
@@ -53,7 +53,7 @@ const socialLinks = [
               <div>
                 <h2 class="text-2xl mb-4">Follow his Journey</h2>
                 <div class="flex space-x-4">
-                  <UButton v-for="link in socialLinks" :key="link.name" :to="link.url" color="gray" variant="ghost">
+                  <UButton v-for="link in socialLinks" :key="link.name" :to="link.url" color="primary" variant="ghost">
                     {{ link.name }}
                   </UButton>
                 </div>
