@@ -43,7 +43,7 @@ const socialLinks = [
               <h1 class="text-7xl font-heading mb-4">{{ title }}</h1>
               <p class="text-xl mb-6 italic">{{ tagline }}</p>
               <p class="text-2xl font-bold mb-6">{{ releaseDate }}</p>
-              <p class="mb-6">{{ description }}</p>
+              <p class="mb-6 font-thin text-xl">{{ description }}</p>
               
               <form @submit.prevent="submitForm" class="mb-8">
                 <UInput v-model="email" placeholder="Enter your email" type="email" class="mb-2" />
@@ -72,7 +72,7 @@ const socialLinks = [
   font-family: 'Anton SC', sans-serif;
 }
 
-p {
-  font-family: 'Roboto', sans-serif;
+body {
+  font-family: 'Roboto Condensed', sans-serif;
 }
 </style>
