@@ -12,11 +12,13 @@ useHead({
 
 // Optional: Log when the component is mounted
 onMounted(() => {
-  console.log('Component mounted, Netlify Identity script should be loaded')
+ 
   
   // Initialize Netlify Identity
   if (window.netlifyIdentity) {
+    console.log('Component mounted, Netlify Identity script should be loaded', window.netlifyIdentity)
     window.netlifyIdentity.on("init", user => {
+      console.log('Component', user)
       if (!user) {
         window.netlifyIdentity.on("login", () => {
           document.location.href = "/admin/";
