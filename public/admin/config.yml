@@ -89,7 +89,6 @@ collections:
       - { label: 'Link', name: 'link', widget: 'string' }
       - { label: 'Access Level', name: 'accessLevel', widget: 'select', options: ['basic', 'premium', 'full'] }
 
-  collections:
   - name: "locations"
     label: "Locations"
     folder: "content/locations"
