@@ -88,3 +88,72 @@ collections:
       - { label: 'Description', name: 'description', widget: 'text' }
       - { label: 'Link', name: 'link', widget: 'string' }
       - { label: 'Access Level', name: 'accessLevel', widget: 'select', options: ['basic', 'premium', 'full'] }
+
+  collections:
+  - name: "locations"
+    label: "Locations"
+    folder: "content/locations"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Name", name: "name", widget: "string"}
+      - {label: "Country", name: "country", widget: "string"}
+      - {label: "Region/State", name: "region", widget: "string"}
+      - {label: "City", name: "city", widget: "string"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Climate", name: "climate", widget: "string"}
+      - {label: "Local Culture", name: "localCulture", widget: "text"}
+      - {label: "Featured Image", name: "featuredImage", widget: "image"}
+
+  - name: "houses"
+    label: "Houses"
+    folder: "content/houses"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Location", name: "location", widget: "relation", collection: "locations", search_fields: ["name", "country", "region", "city"], value_field: "{{slug}}", display_fields: ["name", "country", "region", "city"]}
+      - {label: "Address", name: "address", widget: "string"}
+      - {label: "Price", name: "price", widget: "number", value_type: "float"}
+      - {label: "Currency", name: "currency", widget: "select", options: ["USD", "EUR", "GBP"]}
+      - {label: "Number of Bedrooms", name: "bedrooms", widget: "number", value_type: "int"}
+      - {label: "Number of Bathrooms", name: "bathrooms", widget: "number", value_type: "float"}
+      - {label: "Total Area (sq m)", name: "totalArea", widget: "number", value_type: "float"}
+      - {label: "Land Area (sq m)", name: "landArea", widget: "number", value_type: "float"}
+      - {label: "Year Built", name: "yearBuilt", widget: "number", value_type: "int"}
+      - {label: "Architecture Style", name: "architectureStyle", widget: "string"}
+      - label: "Restoration State"
+        name: "restorationState"
+        widget: "select"
+        options:
+          - {label: "Original", value: "original"}
+          - {label: "Partially Restored", value: "partiallyRestored"}
+          - {label: "Fully Restored", value: "fullyRestored"}
+          - {label: "Needs Restoration", value: "needsRestoration"}
+      - {label: "Description", name: "description", widget: "text"}
+      - label: "Features"
+        name: "features"
+        widget: "list"
+        field: {label: Feature, name: feature, widget: string}
+      - label: "Photos"
+        name: "photos"
+        widget: "list"
+        summary: "{{fields.caption}}"
+        field: {label: Image, name: image, widget: image}
+        fields:
+          - {label: Caption, name: caption, widget: string}
+      - label: "Floor Plans"
+        name: "floorPlans"
+        widget: "list"
+        summary: "{{fields.name}}"
+        fields:
+          - {label: "Name", name: "name", widget: "string"}
+          - {label: "Image", name: "image", widget: "image"}
+      - {label: "Virtual Tour URL", name: "virtualTourUrl", widget: "string", required: false}
+      - label: "Nearby Amenities"
+        name: "nearbyAmenities"
+        widget: "list"
+        field: {label: Amenity, name: amenity, widget: string}
+      - {label: "Energy Efficiency Rating", name: "energyEfficiencyRating", widget: "string", required: false}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false}
+      - {label: "Publish Date", name: "publishDate", widget: "datetime"}
