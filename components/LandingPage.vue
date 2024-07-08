@@ -21,6 +21,34 @@ const socialLinks = [
   { name: 'Facebook', url: '#' },
   { name: 'Instagram', url: '#' }
 ]
+
+const domain = 'https://moaba.netlify.app'
+
+const seoDescription = ref(`"MAMADI" is a powerful documentary by director Rubén Monsuy, produced by Moaba Cinema Studio. This film explores the journey of a man rebuilding his life amidst past turmoil, cultural disconnection, and family struggles. Through Mamadi's story, Monsuy captures the resilience of the human spirit and the quest for purpose in the face of adversity.`)
+
+// SEO Metadata
+useHead({
+  title: `${title.value} - A Documentary by Rubén Monsuy | Moaba Cinema Studio`,
+  link: [
+    {
+      rel: 'canonical',
+      href: domain
+    }
+  ]
+})
+
+useSeoMeta({
+  title: `${title.value} - A Documentary by Rubén Monsuy | Moaba Cinema Studio`,
+  ogTitle: `${title.value} - ${tagline.value} | Moaba Cinema Studio`,
+  description: seoDescription.value,
+  ogDescription: seoDescription.value,
+  ogImage: `${domain}/mamadi.jpg`,
+  ogUrl: domain,
+  twitterCard: 'summary_large_image',
+  twitterTitle: `${title.value} - A Documentary by Rubén Monsuy`,
+  twitterDescription: seoDescription.value,
+  twitterImage: `${domain}/mamadi.jpg`,
+})
 </script>
 
 <template>
