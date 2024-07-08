@@ -3,10 +3,50 @@ backend:
   name: git-gateway
   branch: main # Branch to update (optional; defaults to master)
 
-media_folder: static/img
+media_folder: public/img
 public_folder: /img
 
 collections:
+  - name: "movies"
+    label: "Movies"
+    folder: "content/movies"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Tagline", name: "tagline", widget: "string"}
+      - {label: "Release Date", name: "releaseDate", widget: "string"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "SEO Description", name: "seoDescription", widget: "text"}
+      - {label: "Director", name: "director", widget: "string"}
+      - {label: "Producer", name: "producer", widget: "string"}
+      - {label: "Production Company", name: "productionCompany", widget: "string"}
+      - {label: "Poster Image", name: "posterImage", widget: "image"}
+      - {label: "Background Image", name: "backgroundImage", widget: "image"}
+      - {label: "Trailer URL", name: "trailerUrl", widget: "string", required: false}
+      - label: "Cast"
+        name: "cast"
+        widget: "list"
+        fields:
+          - {label: "Actor Name", name: "name", widget: "string"}
+          - {label: "Character Name", name: "character", widget: "string"}
+      - label: "Genres"
+        name: "genres"
+        widget: "select"
+        multiple: true
+        options: ["Drama", "Documentary", "Comedy", "Action", "Thriller", "Romance", "Sci-Fi", "Horror"]
+      - {label: "Duration (in minutes)", name: "duration", widget: "number"}
+      - {label: "Language", name: "language", widget: "string"}
+      - label: "Social Media Links"
+        name: "socialLinks"
+        widget: "object"
+        fields:
+          - {label: "Twitter", name: "twitter", widget: "string", required: false}
+          - {label: "Facebook", name: "facebook", widget: "string", required: false}
+          - {label: "Instagram", name: "instagram", widget: "string", required: false}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false}
+      - {label: "Body", name: "body", widget: "markdown"}
+
   - name: 'blog'
     label: 'Blog'
     folder: 'content/blog'
