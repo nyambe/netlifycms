@@ -1,11 +1,20 @@
 <script setup lang="ts">
-  onMounted(() => {
-    if (process.client) {
-      const script = document.createElement('script')
-      script.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js'
-      document.head.appendChild(script)
+
+
+useHead({
+  script: [
+    {
+      src: 'https://identity.netlify.com/v1/netlify-identity-widget.js',
+      body: true
     }
-  })
+  ]
+})
+
+// Optional: Log when the component is mounted
+onMounted(() => {
+  console.log('Component mounted, Netlify Identity script should be loaded')
+})
+  
 </script>
 <template>
   <div>
