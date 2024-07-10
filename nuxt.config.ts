@@ -8,12 +8,12 @@ export default defineNuxtConfig({
     "@sidebase/nuxt-auth"
   ],
   plugins: ['~/plugins/firebase.ts'],
-  auth: {
-    provider: {
-        type: 'authjs'
-    },
-    globalAppMiddleware: false
-  },
+  // auth: {
+  //   provider: {
+  //       type: 'authjs'
+  //   },
+  //   globalAppMiddleware: false
+  // },
   runtimeConfig: {
     // Private keys that are exposed to the server
     // Add any server-only keys here
