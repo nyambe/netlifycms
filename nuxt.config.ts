@@ -5,9 +5,8 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxt/fonts",
     "@vueuse/nuxt",
-    "@sidebase/nuxt-auth"
   ],
-  plugins: ['~/plugins/firebase.ts'],
+  plugins: ['~/plugins/firebase.client.ts'],
   // auth: {
   //   provider: {
   //       type: 'authjs'
@@ -17,6 +16,11 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Private keys that are exposed to the server
     // Add any server-only keys here
+    firebaseAdmin: {
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    },
     
     // Public keys that are exposed to the client
     public: {

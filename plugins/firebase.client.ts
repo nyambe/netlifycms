@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
@@ -18,6 +19,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const app = initializeApp(firebaseConfig)
   const auth = getAuth(app)
+  const db = getFirestore(app)
+
 
   const sendSignInLink = async (email: string, actionCodeSettings: any) => {
     try {
@@ -46,6 +49,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   return {
     provide: {
       auth,
+      db,
       sendSignInLink,
       signInWithLink,
       isSignInWithEmailLink: (href: string) => isSignInWithEmailLink(auth, href)
