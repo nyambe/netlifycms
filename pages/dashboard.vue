@@ -57,19 +57,32 @@ const isAdmin = ref(false)
 
 const { $auth, $db } = useNuxtApp()
 
+const checkAdminStatus = async (uid: string) => {
+  const db = getFirestore();
+  const userDoc = await getDoc(doc(db, 'users', uid));
+  return userDoc.exists() && userDoc.data()?.isAdmin === true;
+};
+
 onMounted(async () => {
+  console.log('onMounted', user.value)
   $auth.onAuthStateChanged(async (firebaseUser) => {
+    console.log('onAuthStateChanged', firebaseUser)
     if (firebaseUser) {
       user.value = firebaseUser
       
       // Check if user is admin
       const userDoc = await getDoc(doc($db, 'users', firebaseUser.uid))
+      console.log('userDoc', userDoc.exists(), userDoc.data())
       isAdmin.value = userDoc.exists() && userDoc.data()?.isAdmin === true
     } else {
       router.push('/login')
     }
   })
+  console.log('onMounted2', user.value)
 })
+
+
+console.log('user', user.value)
 
 const handleLogout = async () => {
   try {

@@ -1,31 +1,42 @@
-import type { User } from 'firebase/auth'
-import type { Firestore } from 'firebase/firestore'
+import { getAuth, type User } from 'firebase/auth'
+import { getFirestore, doc, getDoc } from 'firebase/firestore'
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const nuxtApp = useNuxtApp()
-  const { $auth, $db } = nuxtApp
+  const auth = getAuth()
+  const db = getFirestore()
 
-  if (!$auth || !$db) {
+  if (!auth || !db) {
     console.error('Firebase is not initialized')
     return navigateTo('/login')
   }
 
-  const user = $auth.currentUser as User | null
+  return new Promise((resolve) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user: User | null) => {
+      unsubscribe() // Unsubscribe immediately after the first call
 
-  if (!user) {
-    console.log('User is not authenticated')
-    return navigateTo('/login')
-  }
+      if (!user) {
+        console.log('User is not authenticated')
+        resolve(navigateTo('/login'))
+        return
+      }
 
-  try {
-    const userDoc = await $db.collection('users').doc(user.uid).get()
-    
-    if (!userDoc.exists || !userDoc.data()?.isAdmin) {
-      console.log('User is not an admin')
-      return navigateTo('/')
-    }
-  } catch (error) {
-    console.error('Error checking admin status:', error)
-    return navigateTo('/')
-  }
+      try {
+        const userDocRef = doc(db, 'users', user.uid)
+        const userDoc = await getDoc(userDocRef)
+        
+        if (!userDoc.exists() || !userDoc.data()?.isAdmin) {
+          console.log('User is not an admin')
+          resolve(navigateTo('/'))
+          return
+        }
+
+        // User is authenticated and is an admin
+        resolve()
+      } catch (error) {
+        console.error('Error checking admin status:', error)
+        resolve(navigateTo('/'))
+      }
+    })
+  })
 })
