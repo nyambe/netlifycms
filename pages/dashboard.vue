@@ -1,9 +1,9 @@
 <template>
   <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
-    <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+    <div class="relative py-3  w-full sm:max-w-4xl sm:mx-auto ">
       <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-light-blue-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
       <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-        <div class="max-w-md mx-auto">
+        <div class="max-w-3xl mx-auto w-full">
           <div>
             <h1 class="text-2xl font-semibold">Welcome to your Dashboard</h1>
           </div>
@@ -12,6 +12,11 @@
               <p>Hello, {{ user?.displayName || user?.email }}</p>
               <p v-if="isAdmin">You have admin privileges.</p>
               <p v-else>You are logged in as a regular user.</p>
+              <div v-if="user">
+                <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/871972518?h=fc0948666f" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+                <p><a href="https://vimeo.com/871972518">BTS Plaza Espa&ntilde;a</a> from <a href="https://vimeo.com/user3909945">samiebuka</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+                <p></p> 
+              </div>
             </div>
             <div class="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
               <p>What would you like to do?</p>
