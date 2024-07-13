@@ -1,12 +1,30 @@
 import { getAuth } from 'firebase-admin/auth'
 import { getFirestore } from 'firebase-admin/firestore'
+import { initializeApp, cert, getApps } from 'firebase-admin/app'
+
+// Initialize Firebase Admin SDK
+if (getApps().length === 0) {
+  const config = useRuntimeConfig()
+  initializeApp({
+    credential: cert({
+      projectId: config.firebaseAdmin.projectId,
+      privateKey: config.firebaseAdmin.privateKey.replace(/\\n/g, '\n'),
+      clientEmail: config.firebaseAdmin.clientEmail,
+    })
+  })
+} else {
+  console.log('Firebase Admin SDK already initialized', getApps().length)
+}
+
+
+const db = getFirestore()
+const auth = getAuth()
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const { inviteCode, email } = body
 
-  const db = getFirestore()
-  const auth = getAuth()
+
 
   try {
     // Verify invite
