@@ -9,9 +9,9 @@
           </div>
           <div class="divide-y divide-gray-200">
             <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-              <p>Hello, {{ user?.displayName || user?.email }}</p>
+              <p>Hello, {{ user?.displayName || user?.email || userEmail }}</p>
               <p v-if="isAdmin">You have admin privileges.</p>
-              <p v-else>You are logged in as a regular user.</p>
+              <p v-else>You can access this exclusive content.</p>
               <div v-if="user">
                 <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/871972518?h=fc0948666f" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
                 <p><a href="https://vimeo.com/871972518">BTS Plaza Espa&ntilde;a</a> from <a href="https://vimeo.com/user3909945">samiebuka</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
@@ -47,6 +47,7 @@
         </div>
       </div>
     </div>
+    <pre>{{ userDocData }}</pre>
   </div>
 </template>
 
@@ -56,17 +57,23 @@ import { useRouter } from 'vue-router'
 import { getAuth, signOut, type User } from 'firebase/auth'
 import { getFirestore, doc, getDoc } from 'firebase/firestore'
 
+interface UserDocData {
+  email: string
+  isAdmin?: boolean
+  created: Date
+  used: boolean
+  visitCount: number
+}
+
 const router = useRouter()
 const user = ref<User | null>(null)
 const isAdmin = ref(false)
+const userDocData = ref<UserDocData | undefined>()
+const userEmail = ref('')
 
 const { $auth, $db } = useNuxtApp()
 
-const checkAdminStatus = async (uid: string) => {
-  const db = getFirestore();
-  const userDoc = await getDoc(doc(db, 'users', uid));
-  return userDoc.exists() && userDoc.data()?.isAdmin === true;
-};
+
 
 onMounted(async () => {
   console.log('onMounted', user.value)
@@ -75,12 +82,17 @@ onMounted(async () => {
     if (firebaseUser) {
       user.value = firebaseUser
       
+      
       // Check if user is admin
       const userDoc = await getDoc(doc($db, 'users', firebaseUser.uid))
       console.log('userDoc', userDoc.exists(), userDoc.data())
       isAdmin.value = userDoc.exists() && userDoc.data()?.isAdmin === true
+      if (!userDoc.exists()) {
+        userEmail.value = firebaseUser.uid
+      }
+
     } else {
-      router.push('/login')
+      router.push('/')
     }
   })
   console.log('onMounted2', user.value)
@@ -92,7 +104,7 @@ console.log('user', user.value)
 const handleLogout = async () => {
   try {
     await signOut($auth)
-    router.push('/private')
+    router.push('/')
   } catch (error) {
     console.error('Logout failed:', error)
   }

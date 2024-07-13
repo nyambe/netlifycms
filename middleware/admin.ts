@@ -2,17 +2,19 @@ import { getAuth, type User } from 'firebase/auth'
 import { getFirestore, doc, getDoc } from 'firebase/firestore'
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  const nuxtApp = useNuxtApp()
-  const auth = getAuth()
-  const db = getFirestore()
+  // const nuxtApp = useNuxtApp()
+  // const auth = getAuth()
+  // const db = getFirestore()
 
-  if (!auth || !db) {
+  const { $auth, $db } = useNuxtApp()
+    
+  if (!$auth || !$db) {
     console.error('Firebase is not initialized')
     return navigateTo('/login')
   }
 
   return new Promise((resolve) => {
-    const unsubscribe = auth.onAuthStateChanged(async (user: User | null) => {
+    const unsubscribe = $auth.onAuthStateChanged(async (user: User | null) => {
       unsubscribe() // Unsubscribe immediately after the first call
 
       if (!user) {
@@ -22,7 +24,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       }
 
       try {
-        const userDocRef = doc(db, 'users', user.uid)
+        const userDocRef = doc($db, 'users', user.uid)
         const userDoc = await getDoc(userDocRef)
         
         if (!userDoc.exists() || !userDoc.data()?.isAdmin) {
